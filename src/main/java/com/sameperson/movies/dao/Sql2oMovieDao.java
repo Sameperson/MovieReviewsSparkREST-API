@@ -30,6 +30,9 @@ public class Sql2oMovieDao implements MovieDao {
     }
 
     public List<Movie> findAll() {
-        return null;
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM movies")
+                    .executeAndFetch(Movie.class);
+        }
     }
 }

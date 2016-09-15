@@ -3,12 +3,12 @@ package com.sameperson.movies.model;
 public class Review {
 
     private int id;
-    private int courseId;
+    private int movieId;
     private int rating;
     private String comment;
 
     public Review(int courseId, int rating, String comment) {
-        this.courseId = courseId;
+        this.movieId = courseId;
         this.rating = rating;
         this.comment = comment;
     }
@@ -21,12 +21,12 @@ public class Review {
         this.id = id;
     }
 
-    public int getCourseId() {
-        return courseId;
+    public int getMovieId() {
+        return movieId;
     }
 
-    public void setCourseId(int courseId) {
-        this.courseId = courseId;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public int getRating() {
@@ -53,7 +53,7 @@ public class Review {
         Review review = (Review) o;
 
         if (id != review.id) return false;
-        if (courseId != review.courseId) return false;
+        if (movieId != review.movieId) return false;
         if (rating != review.rating) return false;
         return comment != null ? comment.equals(review.comment) : review.comment == null;
 
@@ -62,7 +62,7 @@ public class Review {
     @Override
     public int hashCode() {
         int result = id;
-        result = 31 * result + courseId;
+        result = 31 * result + movieId;
         result = 31 * result + rating;
         result = 31 * result + (comment != null ? comment.hashCode() : 0);
         return result;
