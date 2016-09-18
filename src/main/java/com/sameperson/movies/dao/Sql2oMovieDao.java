@@ -35,4 +35,13 @@ public class Sql2oMovieDao implements MovieDao {
                     .executeAndFetch(Movie.class);
         }
     }
+
+    @Override
+    public Movie findById(int id) {
+        try (Connection con = sql2o.open()) {
+            return con.createQuery("SELECT * FROM movies WHERE id = :id")
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Movie.class);
+        }
+    }
 }

@@ -29,7 +29,7 @@ public class MovieDaoTest {
 
     @Test
     public void addingMovieSetsId() throws DaoException {
-        Movie movie = new Movie("Movie", "http://movie.com");
+        Movie movie = getNewMovie();
         int originalMovieId = movie.getId();
         dao.add(movie);
         assertNotEquals(originalMovieId, movie.getId());
@@ -37,7 +37,7 @@ public class MovieDaoTest {
 
     @Test
     public void moviesAreReturnedFromAddAll() throws Exception {
-        Movie movie = new Movie("Movie", "http://movie.com");
+        Movie movie = getNewMovie();
         dao.add(movie);
         assertEquals(1, dao.findAll().size());
     }
@@ -45,5 +45,17 @@ public class MovieDaoTest {
     @Test
     public void noMoviesReturnsEmptyList() throws Exception {
         assertEquals(0, dao.findAll().size());
+    }
+
+    @Test
+    public void existingMoviesCanBeFoundById() throws Exception {
+        Movie movie = getNewMovie();
+        dao.add(movie);
+        Movie foundMovie = dao.findById(movie.getId());
+        assertEquals(movie, foundMovie);
+    }
+
+    private Movie getNewMovie() {
+        return new Movie("Movie", "http://movie.com");
     }
 }
