@@ -25,7 +25,7 @@ public class Sql2oMovieDao implements MovieDao {
                     .getKey();
             movie.setId(id);
         } catch (Sql2oException e) {
-            throw new DaoException(e, "Error occurred while adding the movie");
+            throw new DaoException(e, "Error occurred while adding the movie - " + e.getMessage());
         }
     }
 
