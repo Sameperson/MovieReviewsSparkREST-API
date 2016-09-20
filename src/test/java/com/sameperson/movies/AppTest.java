@@ -1,6 +1,9 @@
 package com.sameperson.movies;
 
 import com.google.gson.Gson;
+import com.sameperson.movies.dao.MovieDao;
+import com.sameperson.movies.dao.Sql2oMovieDao;
+import com.sameperson.movies.model.Movie;
 import com.sameperson.testing.ApiClient;
 import com.sameperson.testing.ApiResponse;
 import org.junit.*;
@@ -21,6 +24,7 @@ public class AppTest {
     private Connection connection;
     private ApiClient client;
     private Gson gson;
+    private Sql2oMovieDao movieDao;
 
     @BeforeClass
     public static void b4() {
@@ -36,6 +40,7 @@ public class AppTest {
     @Before
     public void setUp() throws Exception {
         Sql2o sql2o = new Sql2o(DATASOURCE + ";INIT=RUNSCRIPT from 'classpath:db/init.sql'", "", "");
+        movieDao = new Sql2oMovieDao(sql2o);
         connection = sql2o.open();
         client = new ApiClient("http://localhost:" + PORT);
         gson = new Gson();
@@ -56,4 +61,16 @@ public class AppTest {
 
     }
 
+    @Test
+    public void movies_CanBeAccessedById() throws Exception {
+        Movie movie = getNewMovie();
+        movieDao.add(movie);
+        ApiResponse apiResponse = client.request("GET", "/movies/" + movie.getId());
+        Movie retrieved = gson.fromJson(apiResponse.getBody(), Movie.class);
+        assertEquals(movie, retrieved);
+    }
+
+    private Movie getNewMovie() {
+        return new Movie("Movie", "http://movie.com");
+    }
 }

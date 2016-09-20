@@ -39,8 +39,7 @@ public class ApiClient {
             return new ApiResponse(connection.getResponseCode(), body);
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
-            throw new RuntimeException("Whoops!  Connection error");
+            throw new RuntimeException("Connection error - " +e.getMessage());
         }
     }
 }
